@@ -1,0 +1,261 @@
+/* --- Variables & Core Setup --- */
+:root {
+    --primary-pink: #df4d96; /* Hot Pink */
+    --secondary-pink: #FFC0CB; /* Light Pink */
+    --accent-pink: #FEE7F0; /* Very Light Pink/Cream */
+    --text-dark: #333;
+    --text-light: #fff;
+    --paper-white: #FFFFFF;
+}
+
+body {
+    font-family: 'Quicksand', sans-serif; /* Modern, soft sans-serif */
+    margin: 0;
+    padding: 0;
+    /* Soft pink gradient background */
+    background: linear-gradient(135deg, var(--accent-pink) 0%, var(--secondary-pink) 100%); 
+    color: var(--text-dark);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    perspective: 1200px; /* Perspective for 3D animations */
+}
+
+/* --- Particle Background & Shimmer --- */
+#particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+body::before {
+    /* Subtle heart pattern overlay */
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 20%),
+        radial-gradient(circle at 100% 100%, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 20%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.container {
+    text-align: center;
+    padding: 20px;
+    max-width: 90%;
+    position: relative;
+    z-index: 3; 
+}
+
+/* --- Header & Title --- */
+.anniversary-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(3rem, 10vw, 5rem);
+    color: var(--primary-pink);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 5px;
+    animation: textFadeInUp 1.5s ease-out forwards;
+    opacity: 0;
+}
+
+.subtitle {
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    color: #666;
+    margin-bottom: 40px;
+    animation: textFadeInUp 1.5s ease-out 0.8s forwards;
+    opacity: 0;
+}
+
+/* --- Floating Heart Button (The Click Icon) --- */
+.surprise-button {
+    background: linear-gradient(45deg, var(--primary-pink), #ff4d81);
+    color: var(--text-light);
+    border: none;
+    padding: 18px 40px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    border-radius: 50px; /* Pill shape */
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Springy transition */
+    position: relative;
+    overflow: hidden;
+    animation: floatingButton 2s infinite ease-in-out;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.surprise-button:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    filter: brightness(1.1);
+}
+
+.floating-heart-icon {
+    font-size: 1.6rem;
+    animation: heartBeat 1.2s infinite;
+}
+
+/* --- Animated Emojis --- */
+.animated-stickers {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+.emoji {
+    font-size: 2.8rem;
+    display: inline-block;
+}
+.bounce-1 { animation: bounce 1.5s infinite; }
+.bounce-2 { animation: bounce 1.5s infinite 0.2s; }
+.bounce-3 { animation: bounce 1.5s infinite 0.4s; }
+
+
+/* --- The Enchanted Petal Unfold Popup --- */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(8px);
+}
+
+.popup-content-wrapper {
+    transition: transform 1.5s cubic-bezier(0.42, 0, 0.58, 1), opacity 1.5s ease-out; /* Smooth custom timing */
+    transform-style: preserve-3d;
+    /* Initial state: folded like a petal */
+    transform: rotateX(90deg) scale(0.2) translateY(100px); 
+    opacity: 0;
+    width: clamp(320px, 90vw, 850px);
+    max-height: 90vh; /* Ensure it fits on smaller screens */
+    overflow-y: auto;
+    background-color: transparent; /* Wrapper doesn't have background */
+}
+
+.popup.show .popup-content-wrapper {
+    /* Final state: fully unfolded */
+    transform: rotateX(0deg) scale(1) translateY(0); 
+    opacity: 1;
+}
+
+.popup-content {
+    background-color: var(--paper-white);
+    background: linear-gradient(160deg, #ffffff 0%, #fff8f8 100%); /* Subtle paper gradient */
+    padding: clamp(35px, 6vw, 70px);
+    border-radius: 15px; /* Softer rounded corners */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2), 0 0 0 5px var(--secondary-pink); /* Soft shadow, pink border */
+    position: relative;
+    text-align: center;
+    filter: drop-shadow(0 20px 20px rgba(0, 0, 0, 0.3)); /* More prominent drop shadow */
+}
+
+/* Pink Ribbon/Seal Effect */
+.pink-ribbon-seal {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(45deg, var(--primary-pink), #ff4d81);
+    border-radius: 50%;
+    position: absolute;
+    top: -35px; /* Halfway out */
+    left: 50%;
+    transform: translateX(-50%) rotate(0deg);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border: 4px solid var(--accent-pink);
+    animation: pulseGlow 1.8s infinite alternate;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.pink-ribbon-seal::before {
+    content: '💖'; /* Heart inside the seal */
+    font-size: 2rem;
+    color: white;
+    animation: heartBeat 1.2s infinite;
+}
+
+.popup-title {
+    font-family: 'Dancing Script', cursive;
+    color: var(--primary-pink);
+    font-size: clamp(2.8rem, 7vw, 4.2rem);
+    margin-top: 30px;
+    margin-bottom: 25px;
+    line-height: 1.1;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.popup-message {
+    font-family: 'Quicksand', sans-serif;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    line-height: 1.7;
+    text-align: left; 
+    color: var(--text-dark);
+    white-space: pre-line;
+    padding: 0 10px;
+}
+
+.final-signature {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    color: var(--primary-pink);
+    margin-top: 30px;
+    text-align: right;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+/* Close Button */
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 32px;
+    color: #aaa;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.3s;
+    z-index: 10;
+}
+.close-btn:hover {
+    color: var(--primary-pink);
+    transform: rotate(90deg) scale(1.1);
+}
+
+/* --- Keyframe Animations --- */
+@keyframes textFadeInUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes floatingButton {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+@keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(1.15); }
+    50% { transform: scale(1); }
+    75% { transform: scale(1.1); }
+}
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-15px);}
+    60% {transform: translateY(-8px);}
+}
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 0 0 0 0px var(--primary-pink); }
+    50% { box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4), 0 0 0 8px rgba(255, 105, 180, 0.5); }
+}
